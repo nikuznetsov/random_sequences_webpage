@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>
+   Тест
+  </title>
+ </head>
+ <body background="back.jpg">
+ <form id="form1" name="form1" method="POST" action="script.php">
+  <table cellpadding="1" align="center" width="50%">
+  <tr><td>
+     <p align="center"><font size="5"><b>Суть теста заключется в проверке возможности человека вводить случайные последовательности чисел.</b></font></p> 
+	 <p align="center"><font size="5"><b>Правила выполнения:</b></font></p>
+	 <p align="center"><font size="4">Необходимо ввести все данные о себе, после чего нажать на кнопку "Начать". После этого с помощью мыши или клавиш Q = 0 и W = 1 необходимо ввести последовательность символов.</font></p>
+	 <p align="center"><font size="4">Необходимо ввести 1000 символов. После того, как вы ввели последовательноть, вам нужно нажать на кнопку "Закончить". </font></p>
+  </td></tr>
+  </table>
+  <table cellpadding="15" align="center">
+   <tr>
+    <td>
+	 <p align="center"><font size="5"><b>Укажите ваш пол:</b></font>
+     <p align="center"><font size="5"><input type="radio" name="answer" id="amale" value="male">Мужской</font></p>
+     <p align="center"><font size="5"><input type="radio" name="answer" id="afemale" value="female">Женский</font></p>
+	</td> 
+	<td> 
+	 <p align="center"><font size="5"><b>Укажите ваш возраст:</b></font></p>
+	 <p align="center"><input id="age" type="number" name="age" size="10" value=""></p>
+    </td>
+	<td align="center">
+	 <p align="center"><font size="5"><b>Введено:</b></font></p>
+	 <input align="center" style="width:90px;height0px" type="text" readonly id="checknum"/><font size="5"></font>
+	</td>
+   </tr>
+   </table>
+   <table cellpadding="15" align="center">
+   <tr>
+    <td align="center">
+	 <input align="center" style="width:160px;height:50px" type="button" id="butstart" value="Начать" /><font size="20"></font>
+	</td>
+	 <td align="center">
+	  <input align="center" style="width:160px;height:50px" type="submit" id="butinish" value="Закончить" /><font size="20"></font>
+	</td>
+   </tr>
+   <tr>
+	<td align="center">
+	 <p><input type="button" align="center" id="butzero" value="0" style="width:240px;height:240px"><font size="+7"></font></button>
+    </td>
+    <td align="center"> 	
+	 <p><input type="button" align="center" id="butone" value="1" style="width:240px;height:240px"><font size="+7"></font></button>
+	 <input id="storage" name="storage" type="hidden" value=""> 
+	 <input id="indent1" name="indent1" type="hidden" value=""> 
+	 <input id="amount" name="amount" type="hidden" value=""> 
+	</td>
+   </tr>
+  </table>
+ </form>
+  <script>
+   var arr = [];
+   var count = -1;
+   var err = false;
+   var date = new Date();
+   var indent;
+   document.getElementById('butinish').disabled = true;
+   document.getElementById('butzero').disabled = true;
+   document.getElementById('butone').disabled = true;
+   document.getElementById('checknum').disabled = true;
+   
+   var yyy = date.getFullYear()+'';
+   var ddd = date.getDate()+'';
+   var mmm = date.getMonth()+1+'';
+   var hhh = date.getHours()+'';
+   var min = date.getMinutes()+'';
+   var sec = date.getSeconds()+'';
+   if (mmm<10){ mmm = '0'+mmm }; 
+   if (ddd<10) {ddd = '0'+ddd};
+   if (hhh<10) {hhh = '0'+hhh};
+   if (min<10) {min = '0'+min};
+   if (sec<10) {sec = '0'+sec};
+   indent = yyy+mmm+ddd+hhh+min+sec+'';
+   
+   butstart.onclick = function() { 
+   if ((document.getElementById('amale').checked == true) || (document.getElementById('afemale').checked == true)) { 
+     if (document.getElementById('age').value == "") {	 
+    alert('Введите данные!'); 
+	} else {
+	 err = true;
+     document.getElementById('butstart').disabled = true;
+     document.getElementById('butzero').disabled = false;
+     document.getElementById('butone').disabled = false;
+	 document.getElementById('checknum').disabled = false;
+	 };
+	} else { alert('Введите данные!'); };
+	};
+   
+   
+   document.onkeyup = function(event){
+     var events = event || window.event;
+     var ent_press = events.keyCode;
+	   if ((ent_press == 87) && (err == true)) {
+	   count++;
+	   arr[count]=1;
+	   document.getElementById('checknum').value = (count+1);
+	   if (count>=0) { document.getElementById('butinish').disabled = false; };
+	   if (count == 999) {
+	   alert("Введено 1000 символов!");
+	   document.getElementById('butinish').disabled = false;
+	   document.getElementById('checknum').disabled = false;
+	   };
+	   };
+	   if ((ent_press == 81) && (err == true)) {
+	   count++;
+	   if (count>=0) { document.getElementById('butinish').disabled = false; };
+	   arr[count]=0;
+	   document.getElementById('checknum').value = (count+1);
+	   if (count == 999) {
+	   alert("Введено 1000 символов!");
+	   document.getElementById('butinish').disabled = false;
+	   document.getElementById('checknum').disabled = false;
+	   };
+	   };
+	  };
+   
+   butzero.onclick = function() {
+    count++;
+	arr[count]=0;
+	document.getElementById('checknum').value = (count+1);
+	if (count>=0) { document.getElementById('butinish').disabled = false; };
+	if (count == 999) {
+	 alert("Введено 1000 символов!");
+	 document.getElementById('butinish').disabled = false;
+	 document.getElementById('checknum').disabled = false;
+	}
+   };
+   
+  butone.onclick = function() {
+    count++;
+	arr[count]=1;
+	document.getElementById('checknum').value = (count+1);
+	if (count>=0) { document.getElementById('butinish').disabled = false; };
+	if (count == 999) {
+	 alert("Введено 1000 символов!");
+	 document.getElementById('butinish').disabled = false;
+	 document.getElementById('checknum').disabled = false;
+	}
+   }; 
+   
+   arr.toString = function() {
+    return this.join('');
+   }; 
+	
+   butinish.onclick = function() {
+	document.getElementById('butinish').disabled = true;
+	document.getElementById('storage').value = arr;
+	document.getElementById('indent1').value = indent;
+	document.getElementById('amount').value = count+1;
+	document.getElementById('form1').submit();
+   };
+   
+ </script> 
+ </body>
+</html>
